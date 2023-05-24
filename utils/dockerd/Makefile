@@ -47,6 +47,7 @@ define Package/dockerd
     +kmod-veth \
     +tini \
     +uci-firewall \
+    +fuse-overlayfs +cgroupfs-mount \
     @!(mips||mipsel)
   USERID:=docker:docker
   MENU:=1
