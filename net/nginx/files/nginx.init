@@ -24,9 +24,8 @@ nginx_check_luci_template() {
 	fi
 
 	if [ -z "$UCI_CONF_VERSION" ]; then
-		echo "" >> $UCI_CONF_TEMPLATE
-		echo "include module.d/*.module;" >> $UCI_CONF_TEMPLATE
-		echo "# UCI_CONF_VERSION=1.1" >> $UCI_CONF_TEMPLATE
+		sed -i '1i\# UCI_CONF_VERSION=1.1' $UCI_CONF_TEMPLATE
+		sed -i '1i\include module.d/*.module;' $UCI_CONF_TEMPLATE
 	fi
 }
 
@@ -38,6 +37,10 @@ nginx_init() {
 
 	rm -f "$(readlink "${UCI_CONF}")"
 	${NGINX_UTIL} init_lan
+
+	if [ ! -h "${UCI_CONF}" ]
+		then ln -sf /var/lib/nginx/uci.conf ${UCI_CONF}
+	fi
 
 	if [ -f $UCI_CONF_TEMPLATE ]; then
 		nginx_check_luci_template
