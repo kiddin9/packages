@@ -58,6 +58,10 @@ nginx_init() {
 		nginx_check_luci_template
 	fi
 
+	if [ ! -h "${UCI_CONF}" ]; then
+		ln -sf /var/lib/nginx/uci.conf ${UCI_CONF}
+	fi
+
 	if [ -e "${UCI_CONF}" ]
 	then CONF="${UCI_CONF}"
 	else CONF="${NGINX_CONF}"
