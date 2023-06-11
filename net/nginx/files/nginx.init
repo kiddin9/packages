@@ -54,6 +54,10 @@ nginx_init() {
 	rm -f "$(readlink "${UCI_CONF}")"
 	${NGINX_UTIL} init_lan
 
+	if [ ! -h "${UCI_CONF}" ]; then
+		ln -sf /var/lib/nginx/uci.conf ${UCI_CONF}
+	fi
+
 	if [ -f $UCI_CONF_TEMPLATE ]; then
 		nginx_check_luci_template
 	fi
